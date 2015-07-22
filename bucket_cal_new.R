@@ -25,9 +25,9 @@ Get_data <- function(Contractid,Date_start,Date_end,Para)
   Vol_money <- subset(Vol_money, VOL!=0)
   return(Vol_money)
 }
-Class_by_money <- function(data,Buckets)
+Class_by_money <- function(Data,Buckets)
 {
-  MONEY <- data$MONEY
+  MONEY <- Data$MONEY
   MONEY <- sort(MONEY)
   Tmoney <- sum(MONEY)
   Ave <- Tmoney/Buckets
@@ -82,5 +82,8 @@ SUM_money_class <- function(Contractid,Date_start,Date_end,Buckets,Para)
   Detail[Buckets,8] <- max(Money_Vol[Money_Vol$MONEY > Border[Buckets-1],]$VOL)
   #sum[Buckets] <- sum(trading_money[trading_money > Border[Buckets-1]])
   names(Detail) <- c('Money_Sum','Money_Mean','Money_Min','Money_Max','Vol_Sum','Vol_Mean','Vol_Min','Vol_Max')
+  Dir <- paste("C:\\data","Bucket_files",sep = "\\")
+  Filename <- paste(Dir,"\\",paste(Contractid,Date_start,Date_end,sep = "-"),".binary",sep = "")
+  save(Detail,file = Filename)
   return(Detail)
 }
